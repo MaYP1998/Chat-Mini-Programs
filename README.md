@@ -1,2 +1,14 @@
-# Chat-Mini-Programs
-一个简单的聊天小程序。依靠引入JavaFX资源的Maven项目。
+﻿# Chat-Mini-Programs
+一个简单的聊天小程序。
+
+分为客户端和服务器端两部分。
+
+客户端：是一个引用了JavaFX资源的Maven项目，已有打包文件，打包文件位置为：Chat-Mini-Programs/聊天客户端/out/new，打包文件中的“聊天客户端.jar”文件即是客户端的可执行程序。
+
+客户端的使用方式为：
+    首先指定自己的UserId，UserId的格式为：十位字符，然后在连接互联网的条件下，就可以自动接收到所有发送给这个用户ID的消息。
+    在指定了ToUserId的情况下，即可向对方发送消息。
+
+服务器端：是一个纯后端提供接口服务的SpringBoot项目，已有打包文件，打包位置为：Chat-Mini-Programs/聊天服务器端/out/artifacts/_war_exploded，打包文件可以挂载到服务器的Tomcat下运行。
+
+    因为其中的数据库连接的信息被我删去了，所以在部署时需要添加数据库连接的信息。而数据库所需的SQL文件我已经添加到服务器端项目中了。
