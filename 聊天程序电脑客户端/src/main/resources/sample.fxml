@@ -28,7 +28,7 @@
             <TextField fx:id="ToUserIdText" layoutX="397.0" layoutY="10.0" prefHeight="23.0" prefWidth="160.0" promptText="对方的ID号" />
             <Label layoutX="43.0" layoutY="51.0" text="聊天内容：" />
             <TextArea fx:id="MessageContentText" layoutX="43.0" layoutY="310.0" prefHeight="66.0" prefWidth="397.0" wrapText="true" />
-            <Button layoutX="455.0" layoutY="310.0" mnemonicParsing="false" onAction="#SendMessage" prefHeight="66.0" prefWidth="104.0" style="-fx-background-color: #ff8903;" text="Send" />
+            <Button fx:id="button" layoutX="455.0" layoutY="310.0" mnemonicParsing="false" onAction="#SendMessage" prefHeight="66.0" prefWidth="104.0" style="-fx-background-color: #ff8903;" text="Send" />
             <ScrollPane fx:id="pane" layoutX="43.0" layoutY="73.0" prefHeight="212.0" prefWidth="514.0" style="-fx-background-color: white; -fx-border-color: white;">
                <content>
                   <AnchorPane fx:id="ContentText" cache="true" cacheHint="SPEED" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefHeight="197.0" prefWidth="515.0" style="-fx-background-color: white;" />
