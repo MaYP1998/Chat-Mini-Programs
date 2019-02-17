@@ -1,10 +1,7 @@
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -43,7 +40,10 @@ public class Controller implements Initializable {
     @FXML
     private ScrollPane pane;
 
-    private static boolean isSending = false;
+    @FXML
+    private Button button;
+
+    private volatile boolean isSending = false;
 
     private static double height = 0;
 
@@ -76,6 +76,35 @@ public class Controller implements Initializable {
     }
 
     private void UpdateContent(boolean isSendMessage){
+        Thread button_thread = null;
+        if (isSendMessage) {
+            button.setDisable(true);
+            MessageContentText.setEditable(false);
+            Runnable buttonshow = () -> {
+                int i = 2;
+                while (isSending) {
+                    String buttonText = "Sending.";
+                    for (int j = 0; j < i; j++) {
+                        buttonText = buttonText + ".";
+                    }
+                    i++;
+                    i = i % 3;
+                    try {
+                        String finalButtonText = buttonText;
+                        Runnable buttonchange = () -> {
+                            button.setText(finalButtonText);
+                        };
+                        Platform.runLater(buttonchange);
+                        Thread.sleep(500);
+                    } catch (Exception e) {
+                        //e.printStackTrace();
+                    }
+                }
+            };
+            button_thread = new Thread(buttonshow);
+            button_thread.start();
+        }
+        Thread finalButton_thread = button_thread;
         Runnable updaterunnable = () -> {
             if (!isSendMessage || (!"".equals(MessageContentText.getText()) && !(UserIdText.getText()).equals(ToUserIdText.getText()) ) ) {
                 boolean noException = true;
@@ -177,7 +206,18 @@ public class Controller implements Initializable {
                 }
             }
             if (isSendMessage) {
-                isSending = false;
+                try {
+                    isSending = false;
+                    finalButton_thread.join();
+                } catch (InterruptedException e) {
+                    //e.printStackTrace();
+                }
+                Runnable buttonchange = () -> {
+                    button.setText("Send");
+                    button.setDisable(false);
+                    MessageContentText.setEditable(true);
+                };
+                Platform.runLater(buttonchange);
             }
         };
         Thread thread = new Thread(updaterunnable);
@@ -192,17 +232,13 @@ public class Controller implements Initializable {
         while(m.find()) {
             i++;
         }
-        //
         String[] split = MessageContentText.getText().split("\n");
-
-
         for(String each : split) {
             //System.out.println("'" + each + "'");
             int newi = String_length(each) / 28;
             //System.out.println("newi="+newi);
             i += newi;
         }
-
         return i;
     }
 
@@ -214,16 +250,11 @@ public class Controller implements Initializable {
         while(m.find()) {
             i++;
         }
-        //
         String[] split = str.split("\n");
-
         for(String each : split) {
-            //System.out.println("'" + each + "'");
             int newi = String_length(each) / 28;
-            //System.out.println("newi="+newi);
             i += newi;
         }
-
         return i;
     }
 
@@ -239,7 +270,6 @@ public class Controller implements Initializable {
                 length += 2;
 
         }
-        //System.out.println(length);
         return length;
     }
 }
