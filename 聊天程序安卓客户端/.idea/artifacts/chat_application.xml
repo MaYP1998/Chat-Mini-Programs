@@ -1,0 +1,18 @@
+<component name="ArtifactManager">
+  <artifact type="apk" build-on-make="true" name="chat-application">
+    <output-path>$PROJECT_DIR$/build/classes/artifacts/chat_application</output-path>
+    <properties id="android-properties">
+      <options>
+        <option name="keyStoreUrl" value="file://" />
+        <option name="proGuardCfgFiles">
+          <list>
+            <option value="file://%MODULE_SDK_HOME%/tools/proguard/proguard-android.txt" />
+          </list>
+        </option>
+      </options>
+    </properties>
+    <root id="archive" name="chat-application.apk">
+      <element id="android-final-package" facet="app/android/Android" />
+    </root>
+  </artifact>
+</component>
